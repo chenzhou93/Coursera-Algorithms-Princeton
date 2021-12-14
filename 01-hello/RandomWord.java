@@ -1,7 +1,7 @@
 /* *****************************************************************************
- *  Name:              Ada Lovelace
- *  Coursera User ID:  123456
- *  Last modified:     October 16, 1842
+ *  Name:              Chen Zhou
+ *  Coursera User ID:  c0a3c14e1095421aaa0a72362b56de50
+ *  Last modified:     December 14, 2021
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.StdIn;
