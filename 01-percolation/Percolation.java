@@ -28,13 +28,14 @@ public class Percolation {
         }
 
         /* Initialize Union Find Object */
-        unionFind = new WeightedQuickUnionUF(n * n);
+        unionFind = new WeightedQuickUnionUF((n + 1) * (n + 1));
 
         totalOpenedSites = 0;
     }
 
     /* opens the site (row, col) if it is not open already */
     public void open(int row, int col) {
+        System.out.println("open Site: " + row + ", " + col);
         /* Edge case */
         if (row <= 0 || col <= 0) {
             throw new IllegalArgumentException("row or col must be larger than 0");
@@ -42,38 +43,8 @@ public class Percolation {
 
         if (!isOpen(row, col)) {
             grid[row][col] = 1;
-
-            /* Up */
-            if (isOpen(row - 1, col)) {
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row - 2) + col);
-                unionFind.union(n * (row - 1) + col, q);
-            }
-
-            /* Down */
-            if (isOpen(row + 1, col)) {
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row) + col);
-                unionFind.union(n * row + col, q);
-            }
-
-            /* Left */
-            if (isOpen(row, col - 1)) {
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row - 1) + (col - 1));
-                unionFind.union(n * (row - 1) + col, q);
-            }
-
-            /* Right */
-            if (isOpen(row, col + 1)) {
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row - 1) + (col + 1));
-                unionFind.union(n * (row - 1) + col, q);
-            }
-
+            totalOpenedSites++;
         }
-
-        totalOpenedSites++;
 
     }
 
@@ -84,14 +55,72 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
+        boolean isFullResult = false;
         /* Exception*/
+        System.out.println("Check Full: " + row + ", " + col);
         if (isOpen(row, col)) {
-            int q = unionFind.find(n * (row - 1) + col);
-            if (q <= n) {
-                return true;
+
+            if (n * (row - 1) + col <= n) {
+                isFullResult = true;
+            }
+
+            /* Up */
+            if (isOpen(row - 1, col)) {
+                System.out.println("link Up: " + (row - 1) + ", " + col);
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row - 2) + col);
+                for (int i = 1; i <= n; i++) {
+                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
+                        unionFind.union(n * (row - 1) + col, q);
+                        isFullResult = true;
+                        //break;
+                    }
+                }
+            }
+
+            /* Down */
+            if ((row + 1 <= n) && isOpen(row + 1, col)) {
+                System.out.println("link Down: " + (row + 1) + ", " + col);
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row) + col);
+                for (int i = 1; i <= n; i++) {
+                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
+                        unionFind.union(n * (row - 1) + col, q);
+                        isFullResult = true;
+                        //break;
+                    }
+                }
+            }
+
+            /* Left */
+            if (isOpen(row, col - 1)) {
+                System.out.println("link left: " + row + ", " + (col - 1));
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row - 1) + (col - 1));
+                for (int i = 1; i <= n; i++) {
+                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
+                        unionFind.union(n * (row - 1) + col, q);
+                        isFullResult = true;
+                        // break;
+                    }
+                }
+            }
+
+            /* Right */
+            if ((col + 1 <= n) && isOpen(row, col + 1)) {
+                System.out.println("link right: " + row + ", " + (col + 1));
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row - 1) + (col + 1));
+                for (int i = 1; i <= n; i++) {
+                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
+                        unionFind.union(n * (row - 1) + col, q);
+                        isFullResult = true;
+                        //break;
+                    }
+                }
             }
         }
-        return false;
+        return isFullResult;
     }
 
     // returns the number of open sites
