@@ -4,12 +4,13 @@
  *  Last modified:     02/06/2022
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private int trails;
-    private double[] expResults;
+    private final int trails;
+    private final double[] expResults;
 
     // perform independent trials on an n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -17,10 +18,10 @@ public class PercolationStats {
             throw new IllegalArgumentException("n or trails have to be greater than 0");
         }
         this.trails = trials;
-        expResults = new double[n];
+        expResults = new double[trails];
         for (int i = 0; i < trails; i++) {
             Percolation p = new Percolation(n);
-            //Keep randomly open sites until gird percolates
+            // Keep randomly open sites until gird percolates
             while (!p.percolates()) {
                 int row = StdRandom.uniform(1, n + 1);
                 int col = StdRandom.uniform(1, n + 1);
@@ -53,6 +54,17 @@ public class PercolationStats {
 
     // test client (see below)
     public static void main(String[] args) {
+        if (args.length >= 2) {
+
+            PercolationStats percoStat = new PercolationStats(Integer.parseInt(args[0]),
+                                                              Integer.parseInt(args[1]));
+
+            String confidence = "[" + percoStat.confidenceLo() + ", " + percoStat.confidenceHi()
+                    + "]";
+            StdOut.println("mean                    = " + percoStat.mean());
+            StdOut.println("stddev                  = " + percoStat.stddev());
+            StdOut.println("95% confidence interval = " + confidence);
+        }
 
     }
 }
