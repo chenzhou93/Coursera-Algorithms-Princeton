@@ -1,7 +1,7 @@
 /* *****************************************************************************
  *  Name:              Chen Zhou
  *  Coursera User ID:  c0a3c14e1095421aaa0a72362b56de50
- *  Last modified:     01/20/2022
+ *  Last modified:     02/06/2022
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -43,6 +43,47 @@ public class Percolation {
 
         if (!isOpen(row, col)) {
             grid[row][col] = 1;
+
+            /* Up */
+            if ((row - 1 > 0) && isOpen(row - 1, col)) {
+                System.out.println("link Up: " + (row - 1) + ", " + col);
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row - 2) + col);
+
+                unionFind.union(n * (row - 1) + col, q);
+
+            }
+
+            /* Down */
+            if ((row + 1 <= n) && isOpen(row + 1, col)) {
+                System.out.println("link Down: " + (row + 1) + ", " + col);
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row) + col);
+
+                unionFind.union(n * (row - 1) + col, q);
+
+            }
+
+            /* Left */
+            if ((col - 1 > 0) && isOpen(row, col - 1)) {
+                System.out.println("link left: " + row + ", " + (col - 1));
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row - 1) + (col - 1));
+
+                unionFind.union(n * (row - 1) + col, q);
+
+            }
+
+            /* Right */
+            if ((col + 1 <= n) && isOpen(row, col + 1)) {
+                System.out.println("link right: " + row + ", " + (col + 1));
+                /* Find mapped number(position) in UF array(list) */
+                int q = unionFind.find(n * (row - 1) + (col + 1));
+
+                unionFind.union(n * (row - 1) + col, q);
+
+            }
+
             totalOpenedSites++;
         }
 
@@ -56,70 +97,22 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         boolean isFullResult = false;
-        /* Exception*/
-        System.out.println("Check Full: " + row + ", " + col);
+        int q = unionFind.find(n * (row - 1) + col);
+        System.out.println("q: " + q);
         if (isOpen(row, col)) {
 
             if (n * (row - 1) + col <= n) {
                 isFullResult = true;
             }
 
-            /* Up */
-            if (isOpen(row - 1, col)) {
-                System.out.println("link Up: " + (row - 1) + ", " + col);
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row - 2) + col);
-                for (int i = 1; i <= n; i++) {
-                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
-                        unionFind.union(n * (row - 1) + col, q);
-                        isFullResult = true;
-                        //break;
-                    }
+            for (int i = 1; i <= n; i++) {
+                if (isOpen(1, i) && (unionFind.find(i) == q)) {
+                    isFullResult = true;
                 }
             }
 
-            /* Down */
-            if ((row + 1 <= n) && isOpen(row + 1, col)) {
-                System.out.println("link Down: " + (row + 1) + ", " + col);
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row) + col);
-                for (int i = 1; i <= n; i++) {
-                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
-                        unionFind.union(n * (row - 1) + col, q);
-                        isFullResult = true;
-                        //break;
-                    }
-                }
-            }
-
-            /* Left */
-            if (isOpen(row, col - 1)) {
-                System.out.println("link left: " + row + ", " + (col - 1));
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row - 1) + (col - 1));
-                for (int i = 1; i <= n; i++) {
-                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
-                        unionFind.union(n * (row - 1) + col, q);
-                        isFullResult = true;
-                        // break;
-                    }
-                }
-            }
-
-            /* Right */
-            if ((col + 1 <= n) && isOpen(row, col + 1)) {
-                System.out.println("link right: " + row + ", " + (col + 1));
-                /* Find mapped number(position) in UF array(list) */
-                int q = unionFind.find(n * (row - 1) + (col + 1));
-                for (int i = 1; i <= n; i++) {
-                    if (isOpen(1, i) && (unionFind.find(i) == q)) {
-                        unionFind.union(n * (row - 1) + col, q);
-                        isFullResult = true;
-                        //break;
-                    }
-                }
-            }
         }
+        System.out.println("Check Full: " + row + ", " + col + " result: " + isFullResult);
         return isFullResult;
     }
 
@@ -140,7 +133,5 @@ public class Percolation {
 
     // test client (optional)
     public static void main(String[] args) {
-        Percolation p = new Percolation(5);
-        System.out.println(p.numberOfOpenSites());
     }
 }
