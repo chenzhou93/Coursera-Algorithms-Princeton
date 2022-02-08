@@ -88,7 +88,12 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.PercolationStats">
+  <component name="RunManager" selected="Application.PercolationVisualizer">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="Algorithms, Part I" />
+      <method v="2" />
+    </configuration>
     <configuration name="Percolation" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Percolation" />
       <module name="Algorithms, Part I" />
@@ -116,8 +121,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Percolation" />
         <item itemvalue="Application.PercolationVisualizer" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.Percolation" />
       </list>
     </recent_temporary>
   </component>
