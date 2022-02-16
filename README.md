@@ -1,4 +1,4 @@
 # Coursera-Algorithms-Princeton
 Coursera course Algorithm by Princeton University.
 
-My solution for programming assignments.
+My solution of programming assignments are posted.
