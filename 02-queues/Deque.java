@@ -5,17 +5,35 @@
  **************************************************************************** */
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
-    private class Node {
-        Item data;
-        Node prev;
-        Node next;
-    }
-
     private int size;
     private Node first;
     private Node last;
+
+    private class Node {
+        private Item data;
+        private Node prev;
+        private Node next;
+    }
+
+    private class DequeIterator implements Iterator<Item> {
+        private Node node = first;
+
+        public boolean hasNext() {
+            return (node.next != last);
+        }
+
+        public Item next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            Item item = node.data;
+            node = node.next;
+            return item;
+        }
+    }
 
     // construct an empty deque
     public Deque() {
@@ -92,7 +110,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // return an iterator over items in order from front to back
     public Iterator<Item> iterator() {
-        
+        return new DequeIterator();
     }
 
     // unit testing (required)
