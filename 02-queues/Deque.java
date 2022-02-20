@@ -4,6 +4,9 @@
  *  Description: My implementation of Deque
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -89,6 +92,9 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the front
     public Item removeFirst() {
         Node delNode = first.next;
+        if (delNode.data == null) {
+            throw new java.util.NoSuchElementException();
+        }
         first.next = delNode.next;
         delNode.next.prev = first;
         delNode.next = null;
@@ -100,6 +106,9 @@ public class Deque<Item> implements Iterable<Item> {
     // remove and return the item from the back
     public Item removeLast() {
         Node delNode = last.prev;
+        if (delNode.data == null) {
+            throw new java.util.NoSuchElementException();
+        }
         last.prev = delNode.prev;
         delNode.prev.next = last;
         delNode.prev = null;
@@ -115,7 +124,17 @@ public class Deque<Item> implements Iterable<Item> {
 
     // unit testing (required)
     public static void main(String[] args) {
-
+        // StdOut.print("main \n");
+        Deque<String> deque = new Deque<>();
+        while (!StdIn.isEmpty()) {
+            String s = StdIn.readString();
+            // StdOut.print(s);
+            if (s.equals("-"))
+                //StdOut.print(deque.removeLast());
+                StdOut.print(deque.removeFirst());
+            else
+                deque.addFirst(s);
+        }
     }
 
 }

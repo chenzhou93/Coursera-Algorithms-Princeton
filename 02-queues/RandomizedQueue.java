@@ -4,6 +4,8 @@
  *  Description:
  **************************************************************************** */
 
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -77,6 +79,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         current.next = current.next.next;
         current.next.next = null;
         size--;
+        if (current.next.data == null) {
+            throw new java.util.NoSuchElementException();
+        }
         return current.next.data;
     }
 
@@ -87,6 +92,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         for (int i = 0; i < randomNumber; i++) {
             current = current.next;
         }
+        if (current.data == null) {
+            throw new java.util.NoSuchElementException();
+        }
         return current.data;
     }
 
@@ -96,6 +104,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-
+        RandomizedQueue<String> rq = new RandomizedQueue<>();
+        while (!StdIn.isEmpty()) {
+            String s = StdIn.readString();
+            if (s.equals("-"))
+                StdOut.print(rq.dequeue());
+            else
+                rq.enqueue(s);
+        }
     }
 }
