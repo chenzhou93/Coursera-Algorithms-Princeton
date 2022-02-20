@@ -4,8 +4,6 @@
  *  Description:
  **************************************************************************** */
 
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
@@ -18,10 +16,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private class RdQueueIterator implements Iterator<Item> {
-        private Node node = head;
+        private Node node = head.next;
 
         public boolean hasNext() {
-            return (node.next != null);
+            return (node != null);
         }
 
         public Item next() {
@@ -35,7 +33,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     private int size;
-    private Node head;
+    private final Node head;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
@@ -71,29 +69,34 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // remove and return a random item
     public Item dequeue() {
-        int randomNumber = StdRandom.uniform(1, size);
+        int randomNumber = StdRandom.uniform(size);
+        // StdOut.print("random number is: " + randomNumber + "\n");
         Node current = head;
-        for (int i = 0; i < randomNumber - 1; i++) {
+        for (int i = 0; i < randomNumber; i++) {
             current = current.next;
+            // StdOut.println("next data: " + current.data);
         }
-        current.next = current.next.next;
-        current.next.next = null;
+        Item retData = current.next.data;
+        // StdOut.println("retData: " + retData);
+        current.next = current.next.next == null ? null : current.next.next;
+        // current.next.next = null;
         size--;
-        if (current.next.data == null) {
-            throw new java.util.NoSuchElementException();
+        if (retData == null) {
+            throw new NoSuchElementException();
         }
-        return current.next.data;
+        return retData;
     }
 
     // return a random item (but do not remove it)
     public Item sample() {
-        int randomNumber = StdRandom.uniform(1, size);
-        Node current = head;
+        int randomNumber = StdRandom.uniform(size);
+        // StdOut.print("random number is: " + randomNumber + "\n");
+        Node current = head.next;
         for (int i = 0; i < randomNumber; i++) {
             current = current.next;
         }
         if (current.data == null) {
-            throw new java.util.NoSuchElementException();
+            throw new NoSuchElementException();
         }
         return current.data;
     }
@@ -104,13 +107,18 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-        RandomizedQueue<String> rq = new RandomizedQueue<>();
-        while (!StdIn.isEmpty()) {
-            String s = StdIn.readString();
-            if (s.equals("-"))
-                StdOut.print(rq.dequeue());
-            else
-                rq.enqueue(s);
-        }
+        // RandomizedQueue<Integer> rq = new RandomizedQueue<>();
+        // rq.enqueue(1);
+        // rq.enqueue(2);
+        // rq.enqueue(3);
+        // rq.enqueue(4);
+        // rq.enqueue(5);
+        // StdOut.print("size: " + rq.size() + "\n");
+        // // StdOut.print("sample: " + rq.sample() + "\n");
+        // StdOut.print("dequeue [1]: " + rq.dequeue() + "\n");
+        // StdOut.print("dequeue [2]: " + rq.dequeue() + "\n");
+        // StdOut.print("dequeue [3]: " + rq.dequeue() + "\n");
+        // StdOut.print("dequeue [4]: " + rq.dequeue() + "\n");
+        // StdOut.print("dequeue [5]: " + rq.dequeue() + "\n");
     }
 }

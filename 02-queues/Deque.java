@@ -4,16 +4,13 @@
  *  Description: My implementation of Deque
  **************************************************************************** */
 
-import edu.princeton.cs.algs4.StdIn;
-import edu.princeton.cs.algs4.StdOut;
-
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 public class Deque<Item> implements Iterable<Item> {
     private int size;
-    private Node first;
-    private Node last;
+    private final Node first;
+    private final Node last;
 
     private class Node {
         private Item data;
@@ -22,10 +19,10 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private class DequeIterator implements Iterator<Item> {
-        private Node node = first;
+        private Node node = first.next;
 
         public boolean hasNext() {
-            return (node.next != last);
+            return (node != last);
         }
 
         public Item next() {
@@ -93,7 +90,7 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeFirst() {
         Node delNode = first.next;
         if (delNode.data == null) {
-            throw new java.util.NoSuchElementException();
+            throw new NoSuchElementException();
         }
         first.next = delNode.next;
         delNode.next.prev = first;
@@ -107,7 +104,7 @@ public class Deque<Item> implements Iterable<Item> {
     public Item removeLast() {
         Node delNode = last.prev;
         if (delNode.data == null) {
-            throw new java.util.NoSuchElementException();
+            throw new NoSuchElementException();
         }
         last.prev = delNode.prev;
         delNode.prev.next = last;
@@ -125,16 +122,14 @@ public class Deque<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         // StdOut.print("main \n");
-        Deque<String> deque = new Deque<>();
-        while (!StdIn.isEmpty()) {
-            String s = StdIn.readString();
-            // StdOut.print(s);
-            if (s.equals("-"))
-                //StdOut.print(deque.removeLast());
-                StdOut.print(deque.removeFirst());
-            else
-                deque.addFirst(s);
-        }
+        // Deque<Integer> deque = new Deque<>();
+        // deque.addFirst(1);
+        // deque.addFirst(2);
+        // deque.addFirst(3);
+        // deque.addFirst(4);
+        // for (Integer i : deque) {
+        //     StdOut.print(i);
+        // }
     }
 
 }
